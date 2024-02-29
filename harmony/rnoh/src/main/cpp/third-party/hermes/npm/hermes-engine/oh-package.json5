@@ -1,0 +1,10 @@
+{
+  "license": "MIT",
+  "name": "hermes-engine",
+  "description": "A JavaScript engine optimized for running React Native on Android",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:facebook/hermes.git"
+  },
+  "version": "%VERSION%"
+}

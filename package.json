@@ -1,15 +1,52 @@
 {
   "name": "react-native-picker",
-  "version": "4.3.7",
+  "version": "4.3.9",
   "description": "A Native Picker with high performance.",
-  "main": "index.js",
-  "types": "index.d.ts",
+  "react-native": "src/index",
+  "source": "src/index",
+  "files": [
+    "src",
+    "ios",
+    "macos",
+    "android",
+    "harmony",
+    "Picker.podspec",
+    "!android/build",
+    "!ios/build",
+    "!**/__tests__",
+    "!**/__fixtures__",
+    "!**/__mocks__",
+    "typings",
+    "windows",
+    "react-native.config.js"
+  ],
+  "keywords": [
+    "react-native",
+    "ios",
+    "android",
+    "harmony"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git@github.com:beefe/react-native-picker.git"
+  },
+  "devDependencies": {
+    "react-native-builder-bob": "^0.20.4"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  },
+  "codegenConfig": {
+    "name": "RTNPickerSpec",
+    "type": "all",
+    "jsSrcsDir": "src",
+    "android": {
+      "javaPackageName": "com.beefe.picker"
+    }
   },
   "author": "zooble",
   "license": "MIT",

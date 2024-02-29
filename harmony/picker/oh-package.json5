@@ -1,0 +1,12 @@
+{
+  "license": "ISC",
+  "devDependencies": {
+    "rnoh": "file:../rnoh"
+  },
+  "name": "rnoh-native-picker",
+  "description": "",
+  "main": "index.ets",
+  "version": "1.0.0",
+  "dependencies": {
+  }
+}

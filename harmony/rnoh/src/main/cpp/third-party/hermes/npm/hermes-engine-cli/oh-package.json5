@@ -1,0 +1,10 @@
+{
+  "license": "MIT",
+  "name": "hermes-engine-cli",
+  "description": "Hermes Engine cli tools for host platforms",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:facebook/hermes.git"
+  },
+  "version": "%VERSION%"
+}

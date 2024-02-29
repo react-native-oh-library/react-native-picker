@@ -1,0 +1,7 @@
+{
+  module: {
+    name: 'picker',
+    type: 'har',
+    deviceTypes: ['default'],
+  },
+}
