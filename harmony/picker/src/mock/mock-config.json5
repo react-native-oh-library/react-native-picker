@@ -1,0 +1,5 @@
+{
+  "libpicker.so": {
+    "source": "src/mock/libpicker.mock.ets"
+  }
+}

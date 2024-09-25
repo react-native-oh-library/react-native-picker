@@ -1,0 +1,16 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "module description"
+    },
+    {
+      "name": "PickerAbility_desc",
+      "value": "description"
+    },
+    {
+      "name": "PickerAbility_label",
+      "value": "label"
+    }
+  ]
+}
