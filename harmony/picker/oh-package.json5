@@ -1,0 +1,14 @@
+{
+  "license": "ISC",
+  "author": "",
+  "devDependencies": {
+  },
+  "name": "@react-native-oh-tpl/react-native-picker",
+  "description": "main cpai architecture",
+  "main": "index.ets",
+  "version": "4.3.9-0.0.1",
+  "dependencies": {
+    "@rnoh/react-native-openharmony": "file:../react_native_openharmony"
+  }
+}
+

@@ -1,0 +1,16 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "模块描述"
+    },
+    {
+      "name": "PickerAbility_desc",
+      "value": "description"
+    },
+    {
+      "name": "PickerAbility_label",
+      "value": "label"
+    }
+  ]
+}

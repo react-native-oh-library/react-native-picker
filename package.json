@@ -1,15 +1,46 @@
 {
-  "name": "react-native-picker",
-  "version": "4.3.7",
+  "name": "@react-native-oh-tpl/react-native-picker",
+  "version": "4.3.9-0.0.1",
   "description": "A Native Picker with high performance.",
-  "main": "index.js",
-  "types": "index.d.ts",
+  "react-native": "src/index",
+  "source": "src/index",
+  "files": [
+    "src",
+    "harmony",
+    "Picker.podspec",
+    "!**/__tests__",
+    "!**/__fixtures__",
+    "!**/__mocks__"
+    ],
+  "keywords": [
+    "react-native",
+    "harmony"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:beefe/react-native-picker.git"
+    "url": "git@github.com:react-native-oh-library/react-native-picker.git"
+  },
+  "devDependencies": {
+    "react-native-builder-bob": "^0.20.4"
+  },
+  "dependencies": {
+    "react-native-picker": "4.0.3"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  },
+  "harmony": {
+    "alias": "react-native-picker",
+    "codegenConfig": {
+      "version": 2,
+      "specPaths": [
+        "./src"
+      ]
+    }
   },
   "author": "zooble",
   "license": "MIT",
