@@ -1,7 +1,7 @@
-/**
+/*
  * MIT License
  *
- * Copyright (C) 2024 Huawei Device Co., Ltd.
+ * Copyright (C) 2023 Huawei Device Co., Ltd.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,26 +22,43 @@
  * SOFTWARE.
  */
 
-import { RNPackage, TurboModulesFactory } from '@rnoh/react-native-openharmony/ts';
-import type { TurboModule, TurboModuleContext } from '@rnoh/react-native-openharmony/ts';
-import { RNCPickerTurboModule } from './PickerTurboModule';
+import hilog from '@ohos.hilog';
 
-class PickerViewTurboModulesFactory extends TurboModulesFactory {
-  createTurboModule(name: string): TurboModule | null {
-    if (name === 'RNCPickerView') {
-      return new RNCPickerTurboModule(this.ctx);
+class Logger {
+  private domain: number;
+  private prefix: string;
+  private format: string = '%{public}s, %{public}s';
+  private isDebug: boolean;
+
+  /**
+   * constructor.
+   *
+   * @param Prefix Identifies the log tag.
+   * @param domain Domain Indicates the service domain, which is a hexadecimal integer ranging from 0x0 to 0xFFFFF.
+   */
+  constructor(prefix: string = 'MyApp', domain: number = 0xFF00, isDebug = false) {
+    this.prefix = prefix;
+    this.domain = domain;
+    this.isDebug = isDebug;
+  }
+
+  debug(...args: string[]): void {
+    if (this.isDebug) {
+      hilog.debug(this.domain, this.prefix, this.format, args);
     }
-    return null;
   }
 
-  hasTurboModule(name: string): boolean {
-    return name === 'RNCPickerView';
+  info(...args: string[]): void {
+    hilog.info(this.domain, this.prefix, this.format, args);
+  }
+
+  warn(...args: string[]): void {
+    hilog.warn(this.domain, this.prefix, this.format, args);
+  }
+
+  error(...args: string[]): void {
+    hilog.error(this.domain, this.prefix, this.format, args);
   }
 }
 
-export class PickerViewPackage extends RNPackage {
-  createTurboModulesFactory(ctx: TurboModuleContext): TurboModulesFactory {
-    return new PickerViewTurboModulesFactory(ctx);
-  }
-}
-
+export default new Logger('Picker', 0xFF00, false)
