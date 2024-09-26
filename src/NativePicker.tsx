@@ -3,12 +3,12 @@ import { TurboModuleRegistry } from 'react-native';
 
 export interface Spec extends TurboModule {
 
-  init:() => Promise<void>;
-  toggle: () => Promise<void>;
-  show: () => Promise<void>;
-  hide: () => Promise<void>;
-  select: (array:Array<any>) => Promise<void>;
-  isPickerShow: () => Promise<void>;
+  init:() => void;
+  toggle: () => void;
+  show: () => void;
+  hide: () => void;
+  select: (array:Array<any>) => void;
+  isPickerShow: () => void;
 }
 
 export default TurboModuleRegistry.get<Spec>("RNCPickerView") as Spec;

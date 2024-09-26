@@ -62,8 +62,8 @@ export default {
         });
     },
 
-   async isPickerShow(fn) {
-        const status = await RNCPickerView.isPickerShow();
+    isPickerShow(fn) {
+        const status = RNCPickerView.isPickerShow();
             fn(status);
     }
 };

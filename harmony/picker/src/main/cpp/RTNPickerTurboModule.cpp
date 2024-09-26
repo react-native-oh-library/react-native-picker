@@ -5,22 +5,22 @@ using namespace rnoh;
 using namespace facebook;
 
 static jsi::Value __hostFunction_RTNPickerTurboModule_init(jsi::Runtime &rt, react::TurboModule &turboModule, const jsi::Value *args, size_t count) {
-  return static_cast<ArkTSTurboModule &>(turboModule).callAsync(rt, "init", args, count);
+  return static_cast<ArkTSTurboModule &>(turboModule).call(rt, "init", args, count);
 }
 static jsi::Value __hostFunction_RTNPickerTurboModule_toggle(jsi::Runtime &rt, react::TurboModule &turboModule, const jsi::Value *args, size_t count) {
-  return static_cast<ArkTSTurboModule &>(turboModule).callAsync(rt, "toggle", args, count);
+  return static_cast<ArkTSTurboModule &>(turboModule).call(rt, "toggle", args, count);
 }
 static jsi::Value __hostFunction_RTNPickerTurboModule_show(jsi::Runtime &rt, react::TurboModule &turboModule, const jsi::Value *args, size_t count) {
-  return static_cast<ArkTSTurboModule &>(turboModule).callAsync(rt, "show", args, count);
+  return static_cast<ArkTSTurboModule &>(turboModule).call(rt, "show", args, count);
 }
 static jsi::Value __hostFunction_RTNPickerTurboModule_hide(jsi::Runtime &rt, react::TurboModule &turboModule, const jsi::Value *args, size_t count) {
-  return static_cast<ArkTSTurboModule &>(turboModule).callAsync(rt, "hide", args, count);
+  return static_cast<ArkTSTurboModule &>(turboModule).call(rt, "hide", args, count);
 }
 static jsi::Value __hostFunction_RTNPickerTurboModule_select(jsi::Runtime &rt, react::TurboModule &turboModule, const jsi::Value *args, size_t count) {
-  return static_cast<ArkTSTurboModule &>(turboModule).callAsync(rt, "select", args, count);
+  return static_cast<ArkTSTurboModule &>(turboModule).call(rt, "select", args, count);
 }
 static jsi::Value __hostFunction_RTNPickerTurboModule_isPickerShow(jsi::Runtime &rt, react::TurboModule &turboModule, const jsi::Value *args, size_t count) {
-  return static_cast<ArkTSTurboModule &>(turboModule).callAsync(rt, "isPickerShow", args, count);
+  return static_cast<ArkTSTurboModule &>(turboModule).call(rt, "isPickerShow", args, count);
 }
 
 RTNPickerTurboModule::RTNPickerTurboModule(const ArkTSTurboModule::Context ctx, const std::string name): ArkTSTurboModule(ctx, name) {
