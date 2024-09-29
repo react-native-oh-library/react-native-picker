@@ -131,7 +131,8 @@ export class GlobalDialog {
   static show() {
     try {
       GlobalDialog.contentNode =
-        new ComponentContent(uiContext, wrapBuilder(buildGlobalDialogComponent), new Params(content.selectedValue));
+        new ComponentContent(uiContext, wrapBuilder(buildGlobalDialogComponent),
+          new Params(content.selectedValue ?? ''));
       const promptAction = uiContext.getPromptAction();
       promptAction.openCustomDialog(GlobalDialog.contentNode, {
         alignment: DialogAlignment.Bottom,
