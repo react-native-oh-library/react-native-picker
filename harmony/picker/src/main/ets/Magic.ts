@@ -32,7 +32,7 @@ export interface FontStyle {
 }
 
 export interface GlobalDialogParam {
-  content: string;
+  val:string | string[] | undefined;
 }
 
 export interface ResultItem {
