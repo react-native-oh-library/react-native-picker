@@ -25,7 +25,7 @@ import Logger from './Logger';
 export const TAG = "Picker";
 
 @Builder
-function buildGlobalDialogComponent() {
+function buildGlobalDialogComponent(params: Params) {
   Column() {
     Flex({ direction: FlexDirection.Row, justifyContent: FlexAlign.SpaceBetween, alignItems: ItemAlign.Center }) {
       Text(content.pickerCancelBtnText)
@@ -54,7 +54,7 @@ function buildGlobalDialogComponent() {
     .height(FIVE_PERCENT)
     .width(HUNDRED_PERCENT)
 
-    TextPicker({ range: content.pickerData, value: content.selectedValue })
+    TextPicker({ range: content.pickerData, value: params.selected })
       .onChange((value: string | string[]) => {
         changeSelect(value);
       })
@@ -107,6 +107,14 @@ let pickerCtx: TurboModuleContext;
 let uiContext: UIContext;
 let showPicker: boolean = false;
 
+class Params {
+  selected: string | string[] = '';
+
+  constructor(selected: string | string[]) {
+    this.selected = selected;
+  }
+}
+
 export class GlobalDialog {
   static contentNode: ComponentContent<GlobalDialogParam>;
   protected ctx: TurboModuleContext;
@@ -122,7 +130,8 @@ export class GlobalDialog {
 
   static show() {
     try {
-      GlobalDialog.contentNode = new ComponentContent(uiContext, wrapBuilder(buildGlobalDialogComponent));
+      GlobalDialog.contentNode =
+        new ComponentContent(uiContext, wrapBuilder(buildGlobalDialogComponent), new Params(content.selectedValue));
       const promptAction = uiContext.getPromptAction();
       promptAction.openCustomDialog(GlobalDialog.contentNode, {
         alignment: DialogAlignment.Bottom,
@@ -157,6 +166,11 @@ export class GlobalDialog {
 
   getContent(): initOptions {
     return content;
+  }
+
+  update(array: Array<string>) {
+    content.selectedValue = array;
+    GlobalDialog.contentNode.update(new Params(content.selectedValue));
   }
 
   processData(data: object[]): ResultItem[] {

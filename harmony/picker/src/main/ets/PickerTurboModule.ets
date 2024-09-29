@@ -21,6 +21,7 @@ export class RNCPickerTurboModule extends TurboModule {
   }
 
   select(array: Array<string>) {
+    this.pickerBaseOperate?.update(array);
   }
 
   hide() {
