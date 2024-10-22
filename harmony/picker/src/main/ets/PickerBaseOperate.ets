@@ -61,6 +61,7 @@ function buildGlobalDialogComponent(params: Params) {
       .canLoop(content.isLoop)
       .height(THIRTY_PERCENT)
       .width(HUNDRED_PERCENT)
+      .disappearTextStyle(GlobalDialog.getTextStyle(FALSE))
       .textStyle(GlobalDialog.getTextStyle(FALSE))
       .selectedTextStyle(GlobalDialog.getTextStyle(TRUE))
       .defaultPickerItemHeight(content.pickerRowHeight)
