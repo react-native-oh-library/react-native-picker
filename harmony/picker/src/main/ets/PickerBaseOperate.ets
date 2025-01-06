@@ -55,8 +55,8 @@ function buildGlobalDialogComponent(params: Params) {
     .width(HUNDRED_PERCENT)
 
     TextPicker({ range: content.pickerData, value: params.selected })
-      .onChange((value: string | string[]) => {
-        changeSelect(value);
+      .onChange((value: string | string[], index: number | number[]) => {
+        changeSelect(value, index);
       })
       .canLoop(content.isLoop)
       .height(THIRTY_PERCENT)
@@ -71,8 +71,10 @@ function buildGlobalDialogComponent(params: Params) {
 
 function cancelClick() {
   try {
-    pickerCtx.rnInstance.emitDeviceEvent(EVENT,
-      { type: CANCEL, selectedValue: content.selectedValue });
+    InitializeIndex();
+    const valArr =  JSON.stringify(Array.isArray(defaultValue)? defaultValue : [defaultValue]);
+    const indexArr = JSON.stringify(Array.isArray(selectIndex)? selectIndex:[selectIndex]);
+    pickerCtx.rnInstance.emitDeviceEvent(EVENT, { type: CANCEL, selectedValue: valArr, selectedIndex: indexArr });
     GlobalDialog.close();
     content.pickerData = undefined;
   } catch (error) {
@@ -83,8 +85,10 @@ function cancelClick() {
 
 function confirmClick() {
   try {
-    pickerCtx.rnInstance.emitDeviceEvent(EVENT,
-      { type: CONFIRM, selectedValue: content.selectedValue });
+    InitializeIndex();
+    const valArr =  JSON.stringify(Array.isArray(defaultValue)? defaultValue : [defaultValue]);
+    const indexArr = JSON.stringify(Array.isArray(selectIndex)? selectIndex:[selectIndex]);
+    pickerCtx.rnInstance.emitDeviceEvent(EVENT, { type: CONFIRM, selectedValue: valArr, selectedIndex: indexArr });
     GlobalDialog.close();
   } catch (error) {
     Logger.error(TAG,
@@ -92,14 +96,104 @@ function confirmClick() {
   }
 }
 
-function changeSelect(val: string | string[]) {
+function changeSelect(val: string | string[], index: number | number[]) {
   try {
-    pickerCtx.rnInstance.emitDeviceEvent(EVENT,
-      { type: SELECT, selectedValue: val });
-    content.selectedValue = val;
+    const valArr = Array.isArray(val)? JSON.stringify(val) : JSON.stringify([val]);
+    const indexArr = Array.isArray(val)? JSON.stringify(index) : JSON.stringify([index]);
+    pickerCtx.rnInstance.emitDeviceEvent(EVENT, { type: SELECT, selectedValue: valArr, selectedIndex: indexArr });
+    defaultValue = val;
+    selectIndex = index as number[];
   } catch (error) {
     Logger.error(TAG,
       `[RNOH] changeSelect failed ErrorCode: ${error.code},  Message: ${error.message}`);
+  }
+}
+
+function InitializeIndex() {
+  if(defaultValue) {
+    if(!selectIndex[0]) {
+      selectIndex = [];
+      if (resource.every(item => Array.isArray(item))) {
+        resource.forEach((item: string[] | number[], index: number) => {
+          item.forEach((item: string | number, i: number) => {
+            if(defaultValue !== undefined && defaultValue[index] == item) {
+              selectIndex.push(i);
+            }
+          })
+        })
+      } else {
+        haveSelectedValue(resource);
+        counter = 0;
+      }
+    }
+  } else {
+    if(!selectIndex[0]) {
+      selectIndex = [];
+      resultArr = [];
+      if (resource.every(item => Array.isArray(item))) {
+        resource.forEach((item: string[] | number[]) => {
+          selectIndex.push(0);
+          resultArr.push(item[0] + '');
+        })
+      } else {
+        find(resource);
+      }
+    }
+    defaultValue = resultArr;
+  }
+}
+
+
+function haveSelectedValue(data: object[]) {
+  try {
+    data.map((item: object, i: number) => {
+      if (typeof item !== 'object') {
+        if(defaultValue !== undefined && defaultValue[counter] == item) {
+          selectIndex.push(i);
+        }
+      } else {
+        if (!Array.isArray(item)) {
+          let keys: string[] = Object.keys(item);
+          if(defaultValue !== undefined && defaultValue[counter] == keys[0]) {
+            selectIndex.push(i);
+            counter++;
+            let values: Array<object> = item[keys[0]];
+            if (Array.isArray(values)) {
+              haveSelectedValue(values);
+            }
+          }
+        }
+      }
+    });
+  } catch (error) {
+    Logger.error(TAG,
+      `[RNOH] find ErrorCode: ${error.code},  Message: ${error.message}`);
+  }
+}
+
+function find(data: object[]) {
+  try {
+    data.map((item: object, i: number) => {
+      if (typeof item !== 'object') {
+        if(i === 0) {
+          resultArr.push(item + '');
+          selectIndex.push(0);
+        }
+      } else {
+        if (!Array.isArray(item) && i === 0) {
+          let keys: string[] = Object.keys(item);
+          resultArr.push(keys[0] + '');
+          selectIndex.push(0);
+          let values: Array<object> = item[keys[0]];
+          if (Array.isArray(values)) {
+            find(values);
+          }
+        }
+      }
+    });
+  } catch (error) {
+    Logger.error(TAG,
+      `[RNOH] find ErrorCode: ${error.code},  Message: ${error.message}`);
   }
 }
 
@@ -107,6 +201,11 @@ let content: initOptions;
 let pickerCtx: TurboModuleContext;
 let uiContext: UIContext;
 let showPicker: boolean = false;
+let selectIndex: number[];
+let resultArr: string[];
+let resource: [];
+let counter: number = 0;
+let defaultValue: string | string[] | undefined;
 
 class Params {
   selected: string | string[] = '';
@@ -133,7 +232,7 @@ export class GlobalDialog {
     try {
       GlobalDialog.contentNode =
         new ComponentContent(uiContext, wrapBuilder(buildGlobalDialogComponent),
-          new Params(content.selectedValue ?? ''));
+          new Params(defaultValue ?? ''));
       const promptAction = uiContext.getPromptAction();
       promptAction.openCustomDialog(GlobalDialog.contentNode, {
         alignment: DialogAlignment.Bottom,
@@ -171,8 +270,8 @@ export class GlobalDialog {
   }
 
   update(array: Array<string>) {
-    content.selectedValue = array;
-    GlobalDialog.contentNode.update(new Params(content.selectedValue));
+    defaultValue = array;
+    GlobalDialog.contentNode.update(new Params(defaultValue));
   }
 
   processData(data: object[]): ResultItem[] {
@@ -212,8 +311,9 @@ export class GlobalDialog {
 
   processSelectedValue() {
     try {
+      resource = content.pickerData as [];
+      selectIndex = [];
       let data = content.pickerData as [];
-      let defaultValue = content.selectedValue;
       if (data.every(item => Array.isArray(item))) {
         content.pickerData = data.map((item: string[] | number[]) => {
           return item.map((i: string | number) => {
@@ -223,10 +323,10 @@ export class GlobalDialog {
       } else {
         content.pickerData = this.processData(data);
       }
-      if (!Array.isArray(defaultValue)) {
-        content.selectedValue = defaultValue?.toString();
+      if (!Array.isArray(content.selectedValue)) {
+        defaultValue = content.selectedValue?.toString();
       } else {
-        content.selectedValue = defaultValue.map(item => {
+        defaultValue = content.selectedValue.map(item => {
           return item.toString();
         })
       }
