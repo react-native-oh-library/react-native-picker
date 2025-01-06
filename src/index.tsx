@@ -35,7 +35,7 @@ export default {
         //there are no `removeListener` for NativeAppEventEmitter & DeviceEventEmitter
         this.listener && this.listener.remove();
         this.listener = DeviceEventEmitter.addListener('pickerEvent', event => {
-            fnConf[event['type']](event['selectedValue'],event['selectedIndex']);
+            fnConf[event['type']](event['selectedValue'], event['selectedIndex']);
         });
     },
 
