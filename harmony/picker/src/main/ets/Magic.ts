@@ -3,7 +3,7 @@ export interface initOptions {
   onPickerConfirm: (event: string) => string,
   onPickerCancel: () => void,
   onPickerSelect: () => void,
-  selectedValue: string | string[] | undefined,
+  selectedValue: string | string[],
   pickerCancelBtnText: string,
   isLoop: boolean,
   pickerTextEllipsisLen: number,
