@@ -101,7 +101,7 @@ function changeSelect(val: string | string[], index: number | number[]) {
     const valArr = Array.isArray(val)? JSON.stringify(val) : JSON.stringify([val]);
     const indexArr = Array.isArray(val)? JSON.stringify(index) : JSON.stringify([index]);
     pickerCtx.rnInstance.emitDeviceEvent(EVENT, { type: SELECT, selectedValue: valArr, selectedIndex: indexArr });
-    defaultValue = val;
+    defaultValue = JSON.parse(valArr);
     selectIndex = index as number[];
   } catch (error) {
     Logger.error(TAG,
