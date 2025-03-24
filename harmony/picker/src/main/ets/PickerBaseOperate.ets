@@ -328,6 +328,8 @@ export class GlobalDialog {
         defaultValue = content.selectedValue.map(item => {
           return item.toString();
         })
+      }else{
+        defaultValue = ""
       }
     } catch (error) {
       Logger.error(TAG,
