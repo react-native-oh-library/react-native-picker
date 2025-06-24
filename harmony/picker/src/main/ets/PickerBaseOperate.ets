@@ -195,6 +195,13 @@ function find(data: object[]) {
       `[RNOH] find ErrorCode: ${error.code},  Message: ${error.message}`);
   }
 }
+async function getUIContext(): Promise<UIContext> {
+  if (!uiContext) {
+    let lastWindow = await window.getLastWindow(pickerCtx.uiAbilityContext)
+    uiContext = lastWindow.getUIContext();
+  }
+  return uiContext
+}
 
 let content: initOptions;
 let pickerCtx: TurboModuleContext;
@@ -221,14 +228,11 @@ export class GlobalDialog {
   constructor(ctx: TurboModuleContext) {
     this.ctx = ctx;
     pickerCtx = ctx;
-    window.getLastWindow(this.ctx.uiAbilityContext)
-      .then((value) => {
-        uiContext = value.getUIContext();
-      })
   }
 
-  static show() {
+  static async show() {
     try {
+      await getUIContext()
       GlobalDialog.contentNode =
         new ComponentContent(uiContext, wrapBuilder(buildGlobalDialogComponent),
           new Params(defaultValue ?? ''));
@@ -244,8 +248,9 @@ export class GlobalDialog {
     }
   }
 
-  static close() {
+  static async close() {
     try {
+      await getUIContext()
       const promptAction = uiContext.getPromptAction();
       promptAction.closeCustomDialog(GlobalDialog.contentNode);
       showPicker = false;
