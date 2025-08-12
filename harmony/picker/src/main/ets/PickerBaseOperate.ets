@@ -224,7 +224,7 @@ class Params {
 export class GlobalDialog {
   static contentNode: ComponentContent<GlobalDialogParam>;
   protected ctx: TurboModuleContext;
-
+  public static pickerData: string[] | string[][] | ResultItem[] | undefined;
   constructor(ctx: TurboModuleContext) {
     this.ctx = ctx;
     pickerCtx = ctx;
@@ -232,6 +232,7 @@ export class GlobalDialog {
 
   static async show() {
     try {
+      content.pickerData = GlobalDialog.pickerData
       await getUIContext()
       GlobalDialog.contentNode =
         new ComponentContent(uiContext, wrapBuilder(buildGlobalDialogComponent),
@@ -263,6 +264,7 @@ export class GlobalDialog {
   init(options: initOptions) {
     content = options;
     this.processSelectedValue();
+    GlobalDialog.pickerData = options.pickerData
   }
 
   getShowPicker(): boolean {
